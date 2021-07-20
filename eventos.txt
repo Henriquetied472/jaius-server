@@ -1,0 +1,10 @@
+client <-+-> server:
+	list-include-me("username"):
+		push the "username" to "users slice(unlimited array)"
+		emit "list-update" with "users slice" to update the online user list
+	connected("username"):
+		emit like broadcast "connected-user" with "username" to send a message on chat
+		emit "list-update" with "users slice" to update the online user list
+	msg-in("msg" "username"):
+		mount message with this model["${username}: ${msg}"]
+		emit like broadcast "msg-out" with "mounted message" to render message on client-side
